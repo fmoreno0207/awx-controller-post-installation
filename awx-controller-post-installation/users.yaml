@@ -1,0 +1,32 @@
+---
+- name: Playbook to configure ansible controller post installation
+  hosts: localhost
+  connection: local
+  vars:
+    controller_validate_certs: true
+  collections:
+    - awx.awx
+  tasks:
+    - name: Add user
+      user:
+        username: fprueba
+        password: fprueba
+        email: ""
+        first_name: fprueba
+        last_name: fprueba
+        organization: WU-wulacaociars
+        state: present
+        controller_config_file: ".controller_cli.cfg" 
+
+    - name: Add user
+      user:
+        username: fprueba2
+        password: fprueba2
+        email: ""
+        first_name: fprueba2
+        last_name: fprueba2
+        organization: WU-wulacaociars
+        state: present
+        controller_config_file: ".controller_cli.cfg" 
+
+

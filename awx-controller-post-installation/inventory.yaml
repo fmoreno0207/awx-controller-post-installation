@@ -1,0 +1,35 @@
+- name: Playbook to configure ansible controller post installation
+  hosts: localhost
+  connection: local
+  vars:
+    controller_validate_certs: true
+  vars_files:
+    - variables/vars-inventory.yaml
+  collections:
+    - awx.awx
+
+  tasks:
+    - name: Add inventory 
+      inventory:
+        name: "{{item.name}}"
+        description: "{{item.name}}"
+        organization: "WU-wulacaociars"
+        state: present
+        controller_config_file: ".controller_cli.cfg"
+      loop: "{{inventories}}"
+
+    - name: Inventory source 
+      inventory_source:
+        name: "{{item.source_name}}"
+        description: "{{item.source_name}}"
+        organization: "WU-wulacaociars"
+        source: "scm"
+        source_project: "project-START-STOP-SOA-OPA"
+        source_path: "{{item.source_path}}"
+        inventory: "{{item.name}}"
+        update_on_launch: true
+        overwrite: true
+        verbosity: 1
+        state: present
+        controller_config_file: ".controller_cli.cfg"
+      loop: "{{inventories}}"

@@ -1,0 +1,79 @@
+---
+- name: Playbook to configure ansible controller post installation
+  hosts: localhost
+  connection: local
+  vars:
+    controller_validate_certs: false
+  vars_files:
+    - variables/vars-templates.yaml
+  collections:
+    - awx.awx
+  
+  tasks: 
+
+  - name: Add job template Sao Pablo
+    job_template:
+      name: "{{item.name}}"
+      organization: "WU-wulacaociars"
+      project: "project-START-STOP-SOA-OPA"
+      playbook: "{{item.playbook}}"
+      become_enabled: yes
+      credentials:
+        - "T-Credential-wulacaociars"
+      job_type: "run"
+      inventory: "Demo Inventory"
+      execution_environment: "wulacaociars-EE"
+      description: "{{item.description}}"
+      state: "present"
+      controller_config_file: ".controller_cli.cfg"
+    loop: "{{templates_sao_pablo}}"
+
+  - name: Add job template Vinhedo
+    job_template:
+      name: "{{item.name}}"
+      organization: "WU-wulacaociars"
+      project: "project-START-STOP-SOA-OPA"
+      playbook: "{{item.playbook}}"
+      become_enabled: yes
+      credentials:
+        - "T-Credential-wulacaociars-vinhedo"
+      job_type: "run"
+      inventory: "Demo Inventory"
+      execution_environment: "wulacaociars-EE"
+      description: "{{item.description}}"
+      state: "present"
+      controller_config_file: ".controller_cli.cfg"
+    loop: "{{templates_vinhedo}}"
+
+
+  - name: Add job template for Nodes
+    job_template:
+      name: "{{item.name}}"
+      organization: "WU-wulacaociars"
+      project: "project-START-STOP-SOA-OPA"
+      playbook: "{{item.playbook}}"
+      become_enabled: yes
+      credentials:
+        - "{{item.credentials}}"
+      job_type: "run"
+      inventory: "{{item.inventory}}"
+      execution_environment: "wulacaociars-EE"
+      description: "{{item.description}}"
+      state: "present"
+      controller_config_file: ".controller_cli.cfg"
+    loop: "{{templates_nodes}}"
+
+  - name: Add job template check
+    job_template:
+      name: "{{item.name}}"
+      organization: "WU-wulacaociars"
+      project: "project-START-STOP-SOA-OPA"
+      playbook: "{{item.playbook}}"
+      become_enabled: yes
+      job_type: "run"
+      inventory: "{{item.inventory}}"
+      execution_environment: "wulacaociars-EE"
+      description: "{{item.description}}"
+      state: "present"
+      controller_config_file: ".controller_cli.cfg"
+    loop: "{{templates_check}}"

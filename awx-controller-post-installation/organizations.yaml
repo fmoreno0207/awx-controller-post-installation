@@ -1,0 +1,16 @@
+---
+- name: Playbook to configure ansible controller post installation
+  hosts: localhost
+  connection: local
+  vars:
+    controller_validate_certs: true
+  collections:
+    - awx.awx
+  tasks:
+    - name: Create organization
+      organization:
+        name: "DevOps"
+        description: "DevOps organization"
+        state: absent
+        controller_config_file: ".controller_cli.cfg"
+

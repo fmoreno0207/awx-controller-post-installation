@@ -1,0 +1,41 @@
+
+---
+- name: Playbook to configure ansible controller post installation
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  vars:
+    controller_validate_certs: false
+  collections:
+    - awx.awx
+  tasks: 
+
+   - name: Add project
+     project:
+       name: "project-START-STOP-SOA-OPA"
+       description: "Proyecto finops"
+       organization: "WU-wulacaociars"
+       default_environment: "wulacaociars-EE"
+       scm_type: "git"
+       scm_url: "https://wuarg.visualstudio.com/Infraestructura/_git/AWX-Test"
+       scm_credential: "Repo-AzureDevOps"
+       scm_update_on_launch: false  # Sincronización automática al lanzar el proyecto
+       scm_update_cache_timeout: 0  # No cachear SCM (opcional)
+       state: present
+       controller_config_file: ".controller_cli.cfg"
+       update_project: true
+
+   - name: Add project
+     project:
+       name: "Project-prueba"
+       description: "Prueba desde ppl"
+       organization: "WU-wulacaoci"
+       default_environment: "wulacaociars-EE"
+       scm_type: "git"
+       scm_url: "https://wuarg.visualstudio.com/Infraestructura/_git/AWX-Test"
+       scm_credential: "Repo-AzureDevOps"
+       scm_update_on_launch: false  # Sincronización automática al lanzar el proyecto
+       scm_update_cache_timeout: 0  # No cachear SCM (opcional)
+       state: present
+       controller_config_file: ".controller_cli.cfg"
+       update_project: false

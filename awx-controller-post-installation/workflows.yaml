@@ -1,0 +1,30 @@
+---
+- name: Playbook to configure ansible controller post installation
+  hosts: localhost
+  connection: local
+  vars:
+    controller_validate_certs: false
+  vars_files:
+    - variables/vars-workflows.yaml
+  collections:
+    - awx.awx
+  
+  tasks: 
+
+- name: Create a workflow job template
+  workflow_job_template:
+    name: "{{item.name}}"
+    description: "{{item.description}}"
+    organization: "WU-wulacaociars"
+    notification_templates_error:
+      - "email notification"
+    controller_config_file: ".controller_cli.cfg"
+
+- name: Create a node, follows workflow_job_template example
+  workflow_job_template_node:
+    identifier: "{{item.identifier}}"
+    workflow: "{{item.workflow}}"
+    unified_job_template: "{{item.template}}"
+    organization: "WU-wulacaociars"
+    success_nodes: "{{item.success_nodes}}"
+    controller_config_file: ".controller_cli.cfg"

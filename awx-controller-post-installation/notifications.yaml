@@ -1,0 +1,36 @@
+---
+- name: Playbook to configure ansible controller post installation
+  hosts: localhost
+  connection: local
+  vars:
+    controller_validate_certs: true
+  collections:
+    - awx.awx
+  tasks:
+
+    - name: Add email notification
+      notification_template:
+        organization: WU-wulacaociars
+        name: email notification
+        notification_type: email
+        notification_configuration:
+          username: ""
+          password: ""
+          sender: awx-pf-rke2-test@pagofacil.com.ar
+          recipients:
+            - sepsa-cloudengineering@westernunion.com
+            - fernando.morenorozo@westernunion.com
+            - tomas.ferrari@westernunion.com
+          host: relay.pagofacil.com.ar
+          port: 25
+          use_tls: no
+          use_ssl: no
+        messages:
+          # started:
+          #   message: "{{ '{{ job_friendly_name }}{{ job.id }} started' }}"
+          success:
+            message: "{{ '{{ job_friendly_name }} completed in {{ job.elapsed }} seconds' }}"
+          error:
+            message: "{{ '{{ job_friendly_name }} FAILED! Please look at {{ job.url }}' }}"  
+        state: present
+        controller_config_file: ".controller_cli.cfg"

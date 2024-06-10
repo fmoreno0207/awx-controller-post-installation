@@ -1,0 +1,19 @@
+---
+- name: Playbook to configure ansible controller post installation
+  hosts: localhost
+  connection: local
+  vars:
+    controller_validate_certs: false
+  collections:
+    - awx.awx
+  
+  tasks:
+    - name: Add user to the member role to Team
+      role:
+        users: 
+          - fprueba
+          - fprueba2
+        target_team: "DevOps"
+        role: member
+        state: present
+        controller_config_file: ".controller_cli.cfg"

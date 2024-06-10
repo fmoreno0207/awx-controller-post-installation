@@ -1,0 +1,80 @@
+name: run ansible playbook
+trigger: none
+
+parameters:
+  - name: PLAYBOOKS
+    displayName: Seleccionar Playbooks a ejecuta
+    type: string
+    values:
+      - organizations
+      - projects
+      - teams
+      - roles
+      - inventory
+      - notifications 
+      - users
+      - team-members
+      - templates
+      - schedulers
+
+
+
+pool:
+   name: Concentrador_AWX-Test 
+   demands:
+     - agent.name -equals SRVBPARG0001 
+
+steps:
+- checkout: self
+
+- ${{ if contains(parameters.PLAYBOOKS, 'organizations') }}:
+  - script: |
+      ansible-playbook awx-controller-post-installation/organizations.yaml
+    displayName: Run organizations playbook
+
+- ${{ if contains(parameters.PLAYBOOKS, 'projects') }}:
+  - script: |
+      ansible-playbook awx-controller-post-installation/projects.yaml
+    displayName: Run projects playbook
+
+- ${{ if contains(parameters.PLAYBOOKS, 'teams') }}:
+  - script: |
+      ansible-playbook awx-controller-post-installation/teams.yaml
+    displayName: Run teams playbook
+
+- ${{ if contains(parameters.PLAYBOOKS, 'roles') }}:
+  - script: |
+      ansible-playbook awx-controller-post-installation/roles.yaml
+    displayName: Run roles playbook
+  
+- ${{ if contains(parameters.PLAYBOOKS, 'inventory') }}:
+  - script: |
+      ansible-playbook awx-controller-post-installation/inventory.yaml
+    displayName: Run inventory playbook
+
+- ${{ if contains(parameters.PLAYBOOKS, 'notifications') }}:
+  - script: |
+      ansible-playbook awx-controller-post-installation/notifications.yaml
+    displayName: Run notifications playbook    
+
+- ${{ if contains(parameters.PLAYBOOKS, 'users') }}:
+  - script: |
+      ansible-playbook awx-controller-post-installation/users.yaml
+    displayName: Run users playbook  
+
+- ${{ if contains(parameters.PLAYBOOKS, 'team-members') }}:
+  - script: |
+      ansible-playbook awx-controller-post-installation/team-members.yaml
+    displayName: Run team-members playbook  
+
+- ${{ if contains(parameters.PLAYBOOKS, 'templates') }}:
+  - script: |
+      ansible-playbook awx-controller-post-installation/templates.yaml
+    displayName: Run templates playbook
+
+- ${{ if contains(parameters.PLAYBOOKS, 'schedulers') }}:
+  - script: |
+      ansible-playbook awx-controller-post-installation/schedulers.yaml
+    displayName: Run schedulers playbook  
+
+

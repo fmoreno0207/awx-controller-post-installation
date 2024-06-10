@@ -1,0 +1,30 @@
+---
+- name: Playbook to configure ansible controller post installation
+  hosts: localhost
+  connection: local
+  vars:
+    controller_validate_certs: false
+  collections:
+    - awx.awx
+
+  tasks:
+
+   - name: Create Role
+     role:
+       role: execute
+       team: DevOps
+       workflows:
+         - "Start DEV Environment"
+       job_templates:
+         - config-add-project
+      #  projects:
+      #    - project-START-STOP-SOA-OPA  
+       state: absent
+       controller_config_file: ".controller_cli.cfg"
+
+   - name: Create Role job_template_admin
+     role:
+       role: job_template_admin
+       team: DevOps
+       state: present
+       controller_config_file: ".controller_cli.cfg"       

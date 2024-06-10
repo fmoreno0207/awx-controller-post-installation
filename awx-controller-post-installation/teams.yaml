@@ -1,0 +1,42 @@
+---
+- name: Playbook to configure ansible controller post installation
+  hosts: localhost
+  connection: local
+  vars:
+    controller_validate_certs: false
+  collections:
+    - awx.awx
+  
+  tasks: 
+
+   - name: Add team
+     team:
+       name: "BGH-Tech"
+       description: "Team BGH"
+       organization: WU-wulacaociars
+       state: present
+       controller_config_file: ".controller_cli.cfg"
+
+   - name: Add team
+     team:
+       name: "Data Bases"
+       description: "Team DBs"
+       organization: WU-wulacaociars
+       state: present
+       controller_config_file: ".controller_cli.cfg"     
+
+   - name: Add team
+     team:
+       name: "Networking"
+       description: "Team Networking"
+       organization: WU-wulacaociars
+       state: present
+       controller_config_file: ".controller_cli.cfg" 
+
+   - name: Add team
+     team:
+       name: "DevOps"
+       description: "Team DevOps"
+       organization: WU-wulacaociars
+       state: present
+       controller_config_file: ".controller_cli.cfg" 

@@ -1,0 +1,11 @@
+workflows:
+#QA
+  - name: "Workflow_start_instance_OPA_QA"
+    description: "This workflow start opa service and stop compute instance"
+
+workflow_nodes:
+#QA
+  - identifier: "Power on OPA QA"
+    workflow: "Workflow_start_instance_OPA_QA"
+    template: "Template-power-on-opa-qa"
+    success_nodes: []

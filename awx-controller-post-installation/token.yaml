@@ -1,0 +1,28 @@
+---
+- name: Playbook to configure ansible controller post installation
+  hosts: localhost
+  connection: local
+  vars:
+    controller_validate_certs: false
+  vars_files:
+    - vars.yaml
+  collections:
+    - awx.awx
+
+  tasks:  
+
+   - name: Create a new token using controller username/password
+     awx.awx.token:
+       description: 'Creating token to test controller jobs'
+       scope: "write"
+       state: present
+       controller_host: "http://awx.pf-rke2-test.pagofacil.com.ar/"
+       controller_username: "admin"
+       controller_password: "aCdgVx9P5mj35Tr3Px90Y880KnTRhPPt"
+     register: token
+   - name: Debug
+     debug:
+      msg: "{{ token }}"
+   - name: Wait 10 min
+     pause:
+       minutes: 10 
